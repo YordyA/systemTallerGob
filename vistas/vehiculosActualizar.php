@@ -1,0 +1,131 @@
+<?php
+if (!isset($_GET['id']) || $_GET['id'] == '') {
+  exit('<script>window.location.href = document.referrer</script>');
+}
+
+require_once './modulos/main.php';
+require_once './modulos/empresas/empresasMain.php';
+require_once './modulos/vehiculos/vehiculosMain.php';
+
+$IDVehiculo = desencriptar($_GET['id']);
+$consulta = vehiculosVerificarXID([$IDVehiculo]);
+if ($consulta->rowCount() == 0) {
+  exit('<script>window.location.href = document.referrer</script>');
+}
+$consulta = $consulta->fetch(PDO::FETCH_ASSOC);
+?>
+<section class="section">
+  <div class="container-fluid">
+    <div class="title-wrapper pt-30">
+      <div class="row align-items-center">
+        <div class="col-md-12">
+          <div class="title mb-30">
+            <h2>ACTUALIZAR VEHICULO: <i><?= $consulta['MarcaVehiculo'] . ' - ' . $consulta['PlacaVehiculo']; ?></i></h2>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-12">
+      <div class="card-style settings-card-2 mb-30">
+        <form id="formulario" autocomplete="off" class="row">
+          <div class="col-md-6">
+            <div class="mb-3">
+              <label class="form-label text-dark">EMRPESA:</label>
+              <select class="form-select form-select-lg text-bold" name="IDEmpresa" required>
+                <?php foreach (empresasLista() as $rowEmpresa): ?>
+                <option value="<?= encriptar($rowEmpresa['IDCentroCostoEmpresa']); ?>"
+                  <?= ($rowEmpresa['IDCentroCostoEmpresa'] == $consulta['IDEmpresa'] ? 'selected' : '') ?>>
+                  <?= $rowEmpresa['RazonSocialEmpresa']; ?>
+                </option>
+                <?php endforeach; ?>
+              </select>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="mb-3">
+              <label class="form-label text-dark">CENTRO DE COSTO:</label>
+              <select class="form-select form-select-lg text-bold" name="IDCentroCosto" required>
+                <?php foreach (empresasListaCentroCosto() as $rowCentroCosto): ?>
+                <option value="<?= encriptar($rowCentroCosto['IDCentroCosto']); ?>"
+                  <?= ($rowCentroCosto['IDCentroCosto'] == $consulta['IDCentroCosto'] ? 'selected' : '') ?>>
+                  <?= $rowCentroCosto['DescripcionCentroCosto']; ?>
+                </option>
+                <?php endforeach; ?>
+              </select>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <?= renderInput('CODIGO DEL VEHICULO:', 'codigoVehiculo', 'text', $consulta['CodigoVehiculo'], true); ?>
+          </div>
+          <div class="col-md-3">
+            <?= renderInput('AÑO DEL VEHICULO:', 'yearVehiculo', 'number', $consulta['YearVehiculo'], true); ?>
+          </div>
+          <div class="col-md-3">
+            <?= renderInput('MARCA DEL VEHICULO:', 'marcaVehiculo', 'text', $consulta['MarcaVehiculo'], true); ?>
+          </div>
+          <div class="col-md-3">
+            <?= renderInput('MODELO DEL VEHICULO:', 'modeloVehiculo', 'text', $consulta['ModeloVehiculo'], true); ?>
+          </div>
+          <div class="col-md-4">
+            <?= renderInput('SERIAL DEL VEHICULO:', 'serialVehiculo', 'text', $consulta['SerialVehiculo'], true); ?>
+          </div>
+          <div class="col-md-4">
+            <?= renderInput('PLACA DEL VEHICULO:', 'placaVehiculo', 'text', $consulta['PlacaVehiculo'], true); ?>
+          </div>
+          <div class="col-md-4">
+            <?= renderInput('COLOR DEL VEHICULO:', 'colorVehiculo', 'text', $consulta['ColorVehiculo'], true); ?>
+          </div>
+          <div class="col-md-6">
+            <div class="mb-3 text-center">
+              <div class="card" style="border: none;">
+                <img src="modulos/vehiculos/<?= $consulta['UrlImagenVehiculo']; ?>" class="card-img-top"
+                  alt="Imagen del Vehículo" style="max-width: 50%; height: auto; border-radius: 5px;">
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="mb-3">
+              <label class="form-label text-dark">FOTO DEL VEHICULO:</label>
+              <input type="file" class="form-control" name="fotoVehiculo" accept=".png, .jpg, .jpeg">
+            </div>
+          </div>
+          <div class="col-md-12">
+            <?= renderInput('ULTIMA ACTUALIZACION:', '', 'text', $consulta['UltimaActualizacionVehiculo'], false, 3, 'disabled'); ?>
+          </div>
+          <div class="col-md-12">
+            <div class="text-center">
+              <button type="submit" class="main-btn primary-btn btn-hover m-1">
+                <strong>ACTUALIZAR</strong>
+              </button>
+              <button type="reset" class="main-btn danger-btn btn-hover m-1" onclick="volver()">
+                <strong>CANCELAR</strong>
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+vehiculosMain.classList.add('active')
+
+formulario.addEventListener('submit', (e) => {
+  e.preventDefault()
+  Swal.fire({
+    title: '¿ESTA SEGURO?',
+    text: 'EL VEHICULO SERA ACTUALIZADO',
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: '#3085d6',
+    cancelButtonColor: '#d33',
+    confirmButtonText: 'ACEPTAR',
+    cancelButtonText: 'CANCELAR'
+  }).then((result) => {
+    if (result.isConfirmed) {
+      ajaxFormularioPOST('modulos/vehiculos/vehiculosActualizar.php?id=<?= $_GET['id'] ?>')
+    }
+  })
+})
+</script>

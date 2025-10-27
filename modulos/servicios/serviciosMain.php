@@ -81,8 +81,7 @@ FROM
   INNER JOIN servicios_resumen ON servicios_detalles.IDServicioResumen = servicios_resumen.IDServicioResumen
   INNER JOIN servicios_tipos ON servicios_resumen.IDTipoServicio = servicios_tipos.IDTipoServicio
   INNER JOIN servicios_vehiculos ON servicios_resumen.IDVehiculo = servicios_vehiculos.IDVehiculo
-  INNER JOIN agroflor_administracion_empresas.centros_costo AS centros_costo ON servicios_vehiculos.IDCentroCosto = centros_costo.IDCentroCosto
-  INNER JOIN agroflor_administracion_empresas.centros_costo_empresa AS centros_costo_empresa ON servicios_vehiculos.IDEmpresa = centros_costo_empresa.IDCentroCostoEmpresa
+  INNER JOIN empresas_gob AS centros_costo ON servicios_vehiculos.IDCentroCosto = centros_costo.IDEmpresa
 WHERE
   servicios_resumen.IDServicioResumen = ?');
   $sql->execute($datos);
@@ -113,8 +112,7 @@ FROM
   INNER JOIN servicios_resumen ON servicios_detalles.IDServicioResumen = servicios_resumen.IDServicioResumen
   INNER JOIN servicios_tipos ON servicios_resumen.IDTipoServicio = servicios_tipos.IDTipoServicio
   INNER JOIN servicios_vehiculos ON servicios_resumen.IDVehiculo = servicios_vehiculos.IDVehiculo
-  INNER JOIN agroflor_administracion_empresas.centros_costo AS centros_costo ON servicios_vehiculos.IDCentroCosto = centros_costo.IDCentroCosto
-  INNER JOIN agroflor_administracion_empresas.centros_costo_empresa AS centros_costo_empresa ON servicios_vehiculos.IDEmpresa = centros_costo_empresa.IDCentroCostoEmpresa
+  INNER JOIN empresas_gob AS centros_costo ON servicios_vehiculos.IDCentroCosto = centros_costo.IDEmpresa
 WHERE
   servicios_resumen.FechaServicio BETWEEN ? AND ?
 GROUP BY

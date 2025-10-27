@@ -32,8 +32,8 @@ require_once './modulos/empresas/empresasMain.php';
                     onchange="actualizarTablaTemp()" required>
                     <option value="" selected>SELECCIONE</option>
                     <?php foreach (empresasListaCentroCosto() as $row) : ?>
-                    <option value="<?= encriptar($row['IDCentroCosto']); ?>">
-                      <?= $row['DescripcionCentroCosto']; ?>
+                    <option value="<?= encriptar($row['IDEmpresa']); ?>">
+                      <?= $row['DescripcionEmpresa']; ?>
                     </option>
                     <?php endforeach; ?>
                   </select>

@@ -3,7 +3,7 @@
 function conexion()
 {
   $host = 'localhost';
-  $dbname = 'sistema4_taller';
+  $dbname = 'sistema4_sistema4_taller';
   $username = 'sistema4_administrador';
   $password = 'sistemas2025*';
 

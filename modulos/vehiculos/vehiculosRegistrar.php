@@ -34,16 +34,16 @@ if (vehiculosVerificarXCODIGO([$codigoVehiculo])->rowCount() > 0) {
   exit();
 }
 
-if (vehiculosVerificarXPLACAVEHICULO([$placaVehiculo])->rowCount() > 0) {
-  $alerta = [
-    "alerta"  => "simple",
-    "titulo"  => "¡OCURRIO UN ERROR INESPERADO!",
-    "texto"   => "LA PLACA DEL VEHICULO YA SE ENCUENTRA REGISTRADO",
-    "tipo"    => "error"
-  ];
-  echo json_encode($alerta);
-  exit();
-}
+// if (vehiculosVerificarXPLACAVEHICULO([$placaVehiculo])->rowCount() > 0) {
+//   $alerta = [
+//     "alerta"  => "simple",
+//     "titulo"  => "¡OCURRIO UN ERROR INESPERADO!",
+//     "texto"   => "LA PLACA DEL VEHICULO YA SE ENCUENTRA REGISTRADO",
+//     "tipo"    => "error"
+//   ];
+//   echo json_encode($alerta);
+//   exit();
+// }
 
 if (isset($_FILES['fotoVehiculo']) && $_FILES['fotoVehiculo']['name'] != '') {
   if ($_FILES['fotoVehiculo']['error'] !== 0) {

@@ -19,7 +19,7 @@ function conexionTasa()
 {
   // Datos de conexión a la base de datos
   $host = 'localhost';
-  $dbname = 'sistema4_planta_gas';
+  $dbname = 'sistema4_apure_gas_operaciones';
   $username = 'sistema4_administrador';
   $password = 'sistemas2025*';
 
